@@ -1,0 +1,50 @@
+.checkbox-overflow {
+	height: 75px;
+	width: 350px;
+	overflow: auto;
+	border: 1px solid #ccc;
+	padding: 5px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.content-editor {
+	max-width: 800px;
+	background: #eee;
+	padding: 0 10px;
+	overflow: hidden;
+	margin: 20px 0;
+}
+
+.content-editor:last-of-type {
+	margin: 20px 0 0;
+}
+
+.content-editor .update-area {
+	text-align: right;
+}
+
+.content-editor .content-editor-head {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 5px;
+	overflow: hidden;
+}
+.content-editor .content-editor-head div, .content-editor .content-editor-head h3 {
+	display: block;
+	margin: 1em 0 .5em;
+}
+
+.mceIframeContainer {
+	background: #fff;
+}
+
+#TB_Image {
+	max-width: 95%;
+	height: auto;
+}
+
+.wrap.ms-content .button-primary {
+	display: none;
+}
