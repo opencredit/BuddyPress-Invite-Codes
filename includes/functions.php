@@ -52,13 +52,13 @@ add_action( 'init', 'bp_invite_codes_register_post_type' );
  * @since  1.0.0
  */
 function bp_invite_codes_bp_after_signup_profile_fields() {
-	$entered_code = $_POST['bp_invite_code'];?>
+	$entered_code = isset( $_POST['bp_invite_code'] ) ? $_POST['bp_invite_code'] : '';?>
 	<div class="register-section">
-	<div class="editfield">
-	<label for="bp_invite_code"><?php echo _e( 'Invitation Code', 'bp-invite-codes' ); ?> <?php if ( get_option( 'bp_invite_codes_require_code' ) == 'Yes' ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
-	<?php do_action( 'bp_invite_codes_errors' ); ?>
-	<input type="text" name="bp_invite_code" id="bp_invite_code" value="<?php echo $entered_code;?>" />
-	</div>
+		<div class="editfield">
+			<label for="bp_invite_code"><?php echo _e( 'Invitation Code', 'bp-invite-codes' ); ?> <?php if ( get_option( 'bp_invite_codes_require_code' ) == 'Yes' ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+			<?php do_action( 'bp_invite_codes_errors' ); ?>
+			<input type="text" name="bp_invite_code" id="bp_invite_code" value="<?php echo $entered_code;?>" />
+		</div>
 	</div>
 	<?php
 }
@@ -71,9 +71,9 @@ add_action( 'bp_before_account_details_fields', 'bp_invite_codes_bp_after_signup
  */
 function bp_invite_codes_bp_core_screen_signup() {
 	global $bp;
-	if ( empty( $_POST['bp_invite_code'] ) && get_option( 'bp_invite_codes_require_code' ) == 'Yes' ) {
+	if ( empty( $_POST['bp_invite_code'] ) && 'Yes' == get_option( 'bp_invite_codes_require_code' ) ) {
 		$bp->signup->errors['bp_invite_codes_error'] = __( 'An invitation code is required to register, please enter one.', 'bp-invite-codes' );
-	}else {
+	} else {
 		$message = bp_invites_codes_get_code( NULL, $_POST['bp_invite_code'] );
 		if ( 'join' != $message )
 			$bp->signup->errors['bp_invite_codes_error'] = $message;
@@ -100,13 +100,14 @@ function bp_invite_codes_errors_message() {
  * @since  1.0.0
  */
 function bp_invite_codes_bp_core_signup_user( $user_id, $user_login, $user_password, $user_email, $usermeta ) {
-	if ( !empty( $_POST['bp_invite_code'] ) )
+	if ( ! empty( $_POST['bp_invite_code'] ) )
 		$message = bp_invites_codes_get_code( NULL, $_POST['bp_invite_code'], NULL, $user_id );
 }
 add_action( 'bp_core_signup_user', 'bp_invite_codes_bp_core_signup_user', 1, 5 );
 
 /**
- * Checks if an invite code is already being used (Site and Group Admins can only use unique invite codes)
+ * Checks if an invite code is already being used
+ * (Site and Group Admins can only use unique invite codes)
  *
  * @since  1.0.0
  * @return a custom message if the code is already being used
@@ -115,14 +116,21 @@ function bp_invite_codes_check_code( $post_id ) {
 	global $wpdb;
 	$code = get_post_meta( $post_id, '_bp_invite_codes_code', 1 );
 	$code_post_id = $wpdb->get_var( $wpdb->prepare(
-			"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_bp_invite_codes_code' AND meta_value <>'' AND post_id <> %d AND meta_value = %s",
-			$post_id,
-			$code
-		) );
+		"
+		SELECT post_id
+		FROM   $wpdb->postmeta
+		WHERE  meta_key = '_bp_invite_codes_code'
+		       AND meta_value != ''
+		       AND post_id != %d
+		       AND meta_value != %s
+		",
+		$post_id,
+		$code
+	) );
 	if ( $code_post_id ) {
 		$new_code = wp_generate_password( 7, 0 );
 		update_post_meta( $post_id, '_bp_invite_codes_code', $new_code );
-		$message = 'The invitation code <b>' . $code . '</b> is already being used, changed invitation code to <b>' . $new_code . '</b>.';
+		$message = sprintf( __( 'The invitation code %1$s is already being used, changed invitation code to %2$s.', 'bp-invite-codes' ), '<b>' . $code . '</b>', '<b>' . $new_code . '</b>'  );
 	}
 	return $message;
 }
@@ -133,39 +141,52 @@ function bp_invite_codes_check_code( $post_id ) {
  * @since  1.0.0
  */
 function bp_invite_codes_group_admin_action( $group_id ) {
-	$bp_invite_codes_code = $_POST['bp_invite_codes_code'];
-	$bp_invite_codes_code_hidden = $_POST['bp_invite_codes_code_hidden'];
+
+	// Grab our submitted codes
+	$bp_invite_codes_code        = isset( $_POST['bp_invite_codes_code'] ) ? $_POST['bp_invite_codes_code'] : '';
+	$bp_invite_codes_code_hidden = isset( $_POST['bp_invite_codes_code_hidden'] ) ? $_POST['bp_invite_codes_code_hidden'] : '';
+
+	// If our codes don't match...
 	if ( $bp_invite_codes_code != $bp_invite_codes_code_hidden ) {
 		global $bp, $user_ID;
-		if(!$group_id)
+
+		if ( ! $group_id )
 			$group_id = $bp->groups->current_group->id;
+
 		$code_post_id = groups_get_groupmeta( $group_id, '_bp_invite_codes_post_id' );
+
 		// Delete invite code meta if form code is blank
-		if ( !$bp_invite_codes_code ) {
+		if ( ! $bp_invite_codes_code ) {
 			delete_post_meta( $code_post_id, '_bp_invite_codes_code' );
 			return;
 		}
 
 		$upost = array(
-			'post_title'    => 'Group Generated: ' . $bp->groups->current_group->name,
-			'post_status'   => 'publish',
-			'post_author'   => $user_ID,
-			'post_type' => 'bp-invite-codes'
+			'post_title'  => sprintf( __( 'Group Generated: %s', 'bp-invite-codes' ), $bp->groups->current_group->name ),
+			'post_status' => 'publish',
+			'post_author' => $user_ID,
+			'post_type'   => 'bp-invite-codes'
 		);
+
 		// Update Code
 		if ( $code_post_id && get_post( $code_post_id ) ) {
 			$upost = array_merge( $upost, array( 'ID' => $code_post_id ) );
 			wp_update_post( $upost );
+
 		// Insert new Code
 		} else {
 			$code_post_id = wp_insert_post( $upost );
 		}
+
 		// Update post and group meta
 		update_post_meta( $code_post_id, '_bp_invite_codes_group_id', $group_id );
 		groups_update_groupmeta( $group_id, '_bp_invite_codes_post_id', $code_post_id );
+
 		// check if code is being used already
 		update_post_meta( $code_post_id, '_bp_invite_codes_code', $bp_invite_codes_code );
 		$message = bp_invite_codes_check_code( $code_post_id );
+
+		// If we have a message write it as an error
 		if ( $message )
 			bp_core_add_message( $message, 'error' );
 
@@ -201,37 +222,50 @@ add_action( 'bp_after_group_settings_creation_step', 'bp_invite_codes_bp_after_g
  * @since  1.0.0
  */
 function bp_invites_codes_get_code( $group_id = NULL, $entered_code = NULL, $return = 'message', $user_id = NULL ) {
+
 	//get code from group
 	if ( $group_id ) {
 		$code_post_id = groups_get_groupmeta( $group_id, '_bp_invite_codes_post_id' );
 		if ( $code_post_id )
 			$code = get_post_meta( $code_post_id, '_bp_invite_codes_code', 1 );
-		//check matches on entered code
-	}else {
+
+	// check matches on entered code
+	} else {
 		global $wpdb;
 		$code_post_id = $wpdb->get_var( $wpdb->prepare(
-				"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_bp_invite_codes_code' AND meta_value <>'' AND meta_value = %s",
-				$entered_code
-			) );
+			"
+			SELECT post_id
+			FROM   $wpdb->postmeta
+			WHERE  meta_key = '_bp_invite_codes_code'
+			       AND meta_value != ''
+			       AND meta_value = %s
+			",
+			$entered_code
+		) );
 		if ( $code_post_id )
 			$code = get_post_meta( $code_post_id, '_bp_invite_codes_code', 1 );
 	}
+
 	// just return the code (used for admins and checking if a group requires a code)
-	if ( $code && $return == 'code' ) {
+	if ( $code && 'code' == $return ) {
 		return $code;
-		// code matches
-	}elseif ( $code == $entered_code && $code_post_id ) {
+
+	// code matches
+	} elseif ( $code == $entered_code && $code_post_id ) {
+
 		// check if endered code is valid
-		$invite_limit=get_post_meta( $code_post_id, '_bp_invite_codes_limit', true );
-		$invite_expiration=get_post_meta( $code_post_id, '_bp_invite_codes_expiration', true );
-		$invites_used=get_post_meta( $code_post_id, '_bp_invite_codes_used', true );
+		$invite_limit      = get_post_meta( $code_post_id, '_bp_invite_codes_limit', true );
+		$invite_expiration = get_post_meta( $code_post_id, '_bp_invite_codes_expiration', true );
+		$invites_used      = get_post_meta( $code_post_id, '_bp_invite_codes_used', true );
+
 		if ( $invites_used )
-			$invites_used=0;
+			$invites_used = 0;
+
 		if ( is_numeric( $invite_limit ) && $invites_used >= $invite_limit ) {
-			$return = __( 'The code you entered "'.$entered_code.'" is maxed out.', 'bp-invite-codes' );
-		}elseif ( $invite_expiration &&  date( 'm/d/Y' ) >= $invite_expiration ) {
-			$return = __( 'The code you entered "'.$entered_code.'" has expired.', 'bp-invite-codes' );
-		}else {
+			$return = sprintf( __( 'The code you entered "%s" is maxed out.', 'bp-invite-codes' ), $entered_code );
+		} elseif ( $invite_expiration &&  date( 'm/d/Y' ) >= $invite_expiration ) {
+			$return = sprintf( __( 'The code you entered "%s" has expired.', 'bp-invite-codes' ), $entered_code );
+		} else {
 			$return = 'join';
 			// get group ids attached to current code and add user to them (this will only happen on registration as group_id is null).
 			if ( bp_is_active( 'groups' ) ) {
@@ -241,9 +275,9 @@ function bp_invites_codes_get_code( $group_id = NULL, $entered_code = NULL, $ret
 					$default_group_ids = get_option( 'bp_invite_codes_default_bp_groups' );
 					if ( is_array( $group_ids ) && is_array( $default_group_ids ) ) {
 						$group_ids = array_merge( $group_ids, $default_group_ids );
-					}elseif ( !is_array( $group_ids ) && is_array( $default_group_ids ) ) {
+					} elseif ( !is_array( $group_ids ) && is_array( $default_group_ids ) ) {
 						$group_ids = $default_group_ids;
-					}else{
+					} else{
 						$group_ids = array(0);
 					}
 					// get group_id if code only set by group admin
@@ -266,11 +300,13 @@ function bp_invites_codes_get_code( $group_id = NULL, $entered_code = NULL, $ret
 			update_post_meta( $code_post_id, '_bp_invite_codes_used', $invites_used + 1 );
 		}
 		// code not matching
-	}elseif ( $code != $entered_code ) {
-		$return = __( 'The code you entered "'.$entered_code.'" is an invalid code.', 'bp-invite-codes' );
+	} elseif ( $code != $entered_code ) {
+		$return = sprintf( __( 'The code you entered "%s" is an invalid code.', 'bp-invite-codes' ), $entered_code );
 	}
-	if($return == 'code')
+
+	if ( 'code' == $return )
 		$return = NULL;
+
 	return $return;
 }
 
@@ -280,10 +316,13 @@ function bp_invites_codes_get_code( $group_id = NULL, $entered_code = NULL, $ret
  * @since  1.0.0
  */
 function bp_invite_codes_bp_get_group_join_button( $button ) {
-	if ( $button['id'] == 'join_group' || $button['id'] == 'request_membership' ) {
+
+	if ( 'join_group' == $button['id'] || 'request_membership' == $button['id'] ) {
+
 		// Get Group ID from $button array
 		$group_id = $button['wrapper_id'];
 		$group_id = str_replace( 'groupbutton-', '', $group_id );
+
 		// Check if group needs an invite code
 		$code = bp_invites_codes_get_code( $group_id, NULL, 'code' );
 		if ( $code ) {
@@ -303,11 +342,10 @@ add_filter( 'bp_get_group_join_button', 'bp_invite_codes_bp_get_group_join_butto
  * @since  1.0.0
  */
 function bp_invite_codes_jquery() {
-	// TODO: check if current bp component is on groups page so we only run this then.
-	// TODO: Move to dedicated js file
+	// @TODO: check if current bp component is on groups page so we only run this then.
+	// @TODO: Move to dedicated js file
 	global $bp;
-	if ( isset( $bp->current_component ) && 'groups' == $bp->current_component ){
-		?>
+	if ( isset( $bp->current_component ) && 'groups' == $bp->current_component ) { ?>
 		<script>
 		jQuery( document ).ready( function($) {
 				jQuery( '.class_bp_invite_codes').click( function() {
@@ -355,7 +393,7 @@ function bp_invite_codes_jquery() {
 								});
 								return false;
 
-							}else {
+							} else {
 								alert(response.message);
 							}
 						}
@@ -375,10 +413,9 @@ add_action( 'wp_head', 'bp_invite_codes_jquery', 999 );
  */
 function bp_invite_codes_bp_get_group_join_button_ajax_action() {
 	$entered_code = isset( $_REQUEST['entered_code'] ) ? $_REQUEST['entered_code'] : false;
-	$group_id = isset( $_REQUEST['group_id'] ) ? $_REQUEST['group_id'] : false;
-	$response['message'] = bp_invites_codes_get_code( $group_id, $entered_code );
-	echo json_encode( $response );
-	die();
+	$group_id     = isset( $_REQUEST['group_id'] ) ? $_REQUEST['group_id'] : false;
+	$message      = bp_invites_codes_get_code( $group_id, $entered_code );
+	wp_send_json_success( $message );
 }
 add_action( 'wp_ajax_bp_invite_codes_bp_get_group_join_button', 'bp_invite_codes_bp_get_group_join_button_ajax_action' );
 add_action( 'wp_ajax_nopriv_bp_invite_codes_bp_get_group_join_button', 'bp_invite_codes_bp_get_group_join_button_ajax_action' );
