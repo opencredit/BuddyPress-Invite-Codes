@@ -234,20 +234,20 @@ function meetingstack_sessions_meta( array $meta_boxes ) {
 		'show_names' => true, // Show field names on the left
 		'fields'     => array(
 			array(
-				'name' => 'Invite Code',
-				'desc' => 'example: H9eJl32',
+				'name' => __( 'Invite Code', 'bp-invite-codes' ),
+				'desc' => __( '(e.g. H9eJl32)', 'bp-invite-codes' ),
 				'id'   => $prefix . 'code',
 				'type' => 'text_medium',
 			),
 			array(
-				'name' => 'Limit',
-				'desc' => 'Code can be used x times, leave blank for no limit.',
+				'name' => __( 'Limit', 'bp-invite-codes' ),
+				'desc' => __( 'Max number of times code may be used, leave blank for no limit.', 'bp-invite-codes' ),
 				'id'   => $prefix . 'limit',
 				'type' => 'text_small',
 			),
 			array(
-				'name' => 'Expiration',
-				'desc' => 'Date which code expires, leave blank for no expiration.',
+				'name' => __( 'Expiration', 'bp-invite-codes' ),
+				'desc' => __( 'Date on which code expires, leave blank for no expiration.', 'bp-invite-codes' ),
 				'id'   => $prefix . 'expiration',
 				'type' => 'text_date',
 			),
@@ -287,15 +287,15 @@ function badgestack_slides_columns_display( $column ) {
 		$codes = array(
 			'code' => array(
 				'meta' => $code = get_post_meta( $post->ID, $pre .'code', true ),
-				'full' => 'Code: <b>'. esc_attr( $code ) .'</b>',
+				'full' => __( 'Code:', 'bp-invite-codes' ) . ' <b>'. esc_attr( $code ) .'</b>',
 			),
 			'limit' => array(
 				'meta' => $limit = get_post_meta( $post->ID, $pre .'limit', true ),
-				'full' => ' | Limit: '. esc_attr( $limit ),
+				'full' => ' | ' . __( 'Limit:', 'bp-invite-codes' ) . ' '. esc_attr( $limit ),
 			),
 			'expiration' => array(
 				'meta' => $expiration = get_post_meta( $post->ID, $pre .'expiration', true ),
-				'full' => ' | Expiration: '. esc_attr( $expiration ),
+				'full' => ' | ' . __( 'Expiration:', 'bp-invite-codes' ) . ' ' . esc_attr( $expiration ),
 			)
 		);
 		foreach ( $codes as $key => $code ) {
