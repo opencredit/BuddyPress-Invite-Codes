@@ -206,8 +206,8 @@ add_action( 'groups_group_settings_edited', 'bp_invite_codes_group_admin_action'
 function bp_invite_codes_bp_after_group_settings_admin() {
 	global $bp;
 	$code = bp_invites_codes_get_code( $bp->groups->current_group->id, NULL, 'code' );?>
-	<h4><?php _e( 'Require invitation code to join this group', 'bp-invite-codes' ); ?></h4>
-	<p><?php _e( 'When set members will be required to enter this code before they join this group.', 'bp-invite-codes' ); ?></p>
+	<h4><?php _e( 'Require invitation code to join this Group', 'bp-invite-codes' ); ?></h4>
+	<p><?php _e( 'When set, members will be required to enter this code before they may join this group:', 'bp-invite-codes' ); ?></p>
 	<p><input type="text" id="bp_invite_codes_code" name="bp_invite_codes_code" value="<?php echo $code;?>"></p>
 	<input type="hidden" id="bp_invite_codes_code_hidden" name="bp_invite_codes_code_hidden" value="<?php echo $code;?>">
 	<?php
@@ -326,85 +326,15 @@ function bp_invite_codes_bp_get_group_join_button( $button ) {
 		// Check if group needs an invite code
 		$code = bp_invites_codes_get_code( $group_id, NULL, 'code' );
 		if ( $code ) {
-			echo $code;
+			// echo $code; // Debug
 			$button['link_class'] = $button['link_class'] . ' class_bp_invite_codes ' . $group_id;
-			echo '<input type="hidden" id="link_href_'.$group_id.'" value="'.$button['link_href'].'">';
+			echo '<input type="hidden" id="link_href_' . $group_id . '" value="' . $button['link_href'] . '">';
 			$button['link_href'] = NULL;
 		}
 	}
 	return $button;
 }
 add_filter( 'bp_get_group_join_button', 'bp_invite_codes_bp_get_group_join_button', 1, 1 );
-
-/**
- * JQUERY for group join button if the group needs an invite code to join.
- *
- * @since  1.0.0
- */
-function bp_invite_codes_jquery() {
-	// @TODO: check if current bp component is on groups page so we only run this then.
-	// @TODO: Move to dedicated js file
-	global $bp;
-	if ( isset( $bp->current_component ) && 'groups' == $bp->current_component ) { ?>
-		<script>
-		jQuery( document ).ready( function($) {
-				jQuery( '.class_bp_invite_codes').click( function() {
-					var invite_code = prompt('<?php echo _e( 'You must enter an invite code to join this group.' );?>');
-					if(!invite_code)
-						return;
-					var gid = jQuery(this).parent().attr('id');
-					var thelink = jQuery(this);
-					gid = gid.split('-');
-					gid = gid[1];
-					$.ajax({
-						url: ajaxurl,
-						data: {
-							'action':      'bp_invite_codes_bp_get_group_join_button',
-							'entered_code':   invite_code,
-							'group_id':       gid
-						},
-						dataType: 'json',
-						success: function( response ) {
-							if ( response.message == 'join' ) {
-
-								var nonce = $('#link_href_'+gid).val()
-								nonce = nonce.split('?_wpnonce=');
-								nonce = nonce[1].split('&');
-								nonce = nonce[0];
-
-								$.post( ajaxurl, {
-									action: 'joinleave_group',
-									'cookie': encodeURIComponent(document.cookie),
-									'gid': gid,
-									'_wpnonce': nonce
-								},
-								function( response )
-								{
-									var parentdiv = thelink.parent();
-									if ( ! $('body.directory').length )
-										location.href = location.href;
-									else {
-										$(parentdiv).fadeOut(200,
-											function() {
-												parentdiv.fadeIn(200).html(response);
-											}
-											);
-									}
-								});
-								return false;
-
-							} else {
-								alert(response.message);
-							}
-						}
-					});
-				});
-			});
-		</script>
-		<?php
-	}
-}
-add_action( 'wp_head', 'bp_invite_codes_jquery', 999 );
 
 /**
  * AJAX Action for clicking Group Join Button

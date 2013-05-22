@@ -46,7 +46,7 @@ class BuddyPress_Invite_Codes {
 
 		// If BadgeOS is unavailable, deactivate our plugin
 		add_action( 'admin_notices', array( $this, 'maybe_disable_plugin' ) );
-		
+
 		add_action( 'bp_include', array( $this, 'bp_include' ) );
 
 		// Load custom js and css
@@ -66,7 +66,7 @@ class BuddyPress_Invite_Codes {
 				require_once( $this->directory_path . '/includes/settings.php' );
 
 			require_once( $this->directory_path . '/includes/functions.php' );
-			
+
 		}
 	}
 
@@ -77,12 +77,15 @@ class BuddyPress_Invite_Codes {
 	 */
 	public function enqueue_scripts() {
 
-		// Grab the global BuddyPress object
-		global $bp;
-		// TODO: Make this work!
 		// If we're on a BP group page
-		/*if ( isset( $bp->current_component ) && 'groups' == $bp->current_component )
-			wp_enqueue_script( 'bp-invite-codes', $this->directory_url . 'js/bp-invites-codes.js', array( 'jquery' ) );*/
+		global $bp;
+		if ( isset( $bp->current_component ) && 'groups' == $bp->current_component ) {
+			wp_enqueue_script( 'bp-invite-codes', $this->directory_url . 'js/bp-invite-codes.js', array( 'jquery' ) );
+			wp_localize_script( 'bp-invite-codes', 'bp_invite_codes', array(
+				'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
+				'prompt'  => __( 'You must enter an invite code to join this group.', 'bp-invite-codes')
+			) );
+		}
 
 		// If need to load css for admin pages
 		//if ( is_admin() )
