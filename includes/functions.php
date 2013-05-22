@@ -262,9 +262,9 @@ function bp_invites_codes_get_code( $group_id = NULL, $entered_code = NULL, $ret
 			$invites_used = 0;
 
 		if ( is_numeric( $invite_limit ) && $invites_used >= $invite_limit ) {
-			$return = sprintf( __( 'The code you entered "%s" is maxed out.', 'bp-invite-codes' ), $entered_code );
+			$return = sprintf( __( 'The code you entered, %s, is maxed out.', 'bp-invite-codes' ), $entered_code );
 		} elseif ( $invite_expiration &&  date( 'm/d/Y' ) >= $invite_expiration ) {
-			$return = sprintf( __( 'The code you entered "%s" has expired.', 'bp-invite-codes' ), $entered_code );
+			$return = sprintf( __( 'The code you entered, %s, has expired.', 'bp-invite-codes' ), $entered_code );
 		} else {
 			$return = 'join';
 			// get group ids attached to current code and add user to them (this will only happen on registration as group_id is null).
@@ -301,7 +301,7 @@ function bp_invites_codes_get_code( $group_id = NULL, $entered_code = NULL, $ret
 		}
 		// code not matching
 	} elseif ( $code != $entered_code ) {
-		$return = sprintf( __( 'The code you entered "%s" is an invalid code.', 'bp-invite-codes' ), $entered_code );
+		$return = sprintf( __( 'The code you entered, %s, is invalid.', 'bp-invite-codes' ), $entered_code );
 	}
 
 	if ( 'code' == $return )
