@@ -1,5 +1,14 @@
 <?php
 /**
+ * Invitation Functionality
+ *
+ * @package BadgeOS
+ * @author Credly, LLC
+ * @license http://www.gnu.org/licenses/agpl.txt GNU AGPL v3.0
+ * @link https://credly.com
+ */
+
+/**
  * Register bp-invite-codes Post Type
  *
  * @since  1.0.0
@@ -289,11 +298,11 @@ function bp_invite_codes_bp_get_group_join_button( $button ) {
 add_filter( 'bp_get_group_join_button', 'bp_invite_codes_bp_get_group_join_button', 1, 1 );
 
 /**
- * JQUERY for group join button if the group needs an invite code to join. 
+ * JQUERY for group join button if the group needs an invite code to join.
  *
  * @since  1.0.0
  */
-function bp_invite_codes_jquery() { 
+function bp_invite_codes_jquery() {
 	// TODO: check if current bp component is on groups page so we only run this then.
 	// TODO: Move to dedicated js file
 	global $bp;
@@ -373,4 +382,3 @@ function bp_invite_codes_bp_get_group_join_button_ajax_action() {
 }
 add_action( 'wp_ajax_bp_invite_codes_bp_get_group_join_button', 'bp_invite_codes_bp_get_group_join_button_ajax_action' );
 add_action( 'wp_ajax_nopriv_bp_invite_codes_bp_get_group_join_button', 'bp_invite_codes_bp_get_group_join_button_ajax_action' );
-?>

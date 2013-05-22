@@ -1,5 +1,15 @@
 <?php
 /**
+ * Admin Settings
+ *
+ * @package BadgeOS
+ * @subpackage Admin
+ * @author Credly, LLC
+ * @license http://www.gnu.org/licenses/agpl.txt GNU AGPL v3.0
+ * @link https://credly.com
+ */
+
+/**
  * Settings Menu
  *
  * @since  1.0.0
@@ -295,4 +305,3 @@ function badgestack_slides_columns_display( $column ) {
 		break;
 	}
 }
-?>
