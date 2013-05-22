@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPress Invite Codes\n"
+"POT-Creation-Date: 2013-05-22 15:31-0500\n"
+"PO-Revision-Date: 2013-05-22 15:31-0500\n"
+"Last-Translator: Brian Richards <brian@rzen.net>\n"
+"Language-Team: Credly\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../buddypress-invite-codes.php:86
+msgid "You must enter an invite code to join this group."
+msgstr ""
+
+#: ../buddypress-invite-codes.php:128
+#, php-format
+msgid ""
+"BuddyPress Invite Codes requires BadgeOS and has been <a href=\"%s"
+"\">deactivated</a>. Please install and activate BadgeOS and then reactivate "
+"this plugin."
+msgstr ""
+
+#: ../buddypress-invite-codes.php:130
+#, php-format
+msgid ""
+"BuddyPress Invite Codes requires BuddyPress and has been <a href=\"%s"
+"\">deactivated</a>. Please install and activate BuddyPress and then "
+"reactivate this plugin."
+msgstr ""
+
+#: ../includes/functions.php:20 ../includes/functions.php:21
+#: ../includes/settings.php:237
+msgid "Invite Code"
+msgstr ""
+
+#: ../includes/functions.php:22 ../includes/functions.php:23
+msgid "Add New Invite Code"
+msgstr ""
+
+#: ../includes/functions.php:24
+msgid "Edit Invite Code"
+msgstr ""
+
+#: ../includes/functions.php:25
+msgid "New Invite Code"
+msgstr ""
+
+#: ../includes/functions.php:26
+msgid "All Invite Codes"
+msgstr ""
+
+#: ../includes/functions.php:27
+msgid "View Invite Code"
+msgstr ""
+
+#: ../includes/functions.php:28
+msgid "Search Invite Codes"
+msgstr ""
+
+#: ../includes/functions.php:29
+msgid "No Invite Codes found"
+msgstr ""
+
+#: ../includes/functions.php:30
+msgid "No Invite Codes found in Trash"
+msgstr ""
+
+#: ../includes/functions.php:31
+msgid "BP Invite Codes"
+msgstr ""
+
+#: ../includes/functions.php:58
+msgid "Invitation Code"
+msgstr ""
+
+#: ../includes/functions.php:58
+msgid "(required)"
+msgstr ""
+
+#: ../includes/functions.php:75
+msgid "An invitation code is required to register, please enter one."
+msgstr ""
+
+#: ../includes/functions.php:133
+#, php-format
+msgid ""
+"The invitation code %1$s is already being used, changed invitation code to "
+"%2$s."
+msgstr ""
+
+#: ../includes/functions.php:165
+#, php-format
+msgid "Group Generated: %s"
+msgstr ""
+
+#: ../includes/functions.php:209
+msgid "Require invitation code to join this Group"
+msgstr ""
+
+#: ../includes/functions.php:210
+msgid ""
+"When set, members will be required to enter this code before they may join "
+"this group:"
+msgstr ""
+
+#: ../includes/functions.php:265
+#, php-format
+msgid "The code you entered, %s, is maxed out."
+msgstr ""
+
+#: ../includes/functions.php:267
+#, php-format
+msgid "The code you entered, %s, has expired."
+msgstr ""
+
+#: ../includes/functions.php:304
+#, php-format
+msgid "The code you entered, %s, is invalid."
+msgstr ""
+
+#: ../includes/settings.php:238
+msgid "(e.g. H9eJl32)"
+msgstr ""
+
+#: ../includes/settings.php:243
+msgid "Limit"
+msgstr ""
+
+#: ../includes/settings.php:244
+msgid "Max number of times code may be used, leave blank for no limit."
+msgstr ""
+
+#: ../includes/settings.php:249
+msgid "Expiration"
+msgstr ""
+
+#: ../includes/settings.php:250
+msgid "Date on which code expires, leave blank for no expiration."
+msgstr ""
+
+#: ../includes/settings.php:290
+msgid "Code:"
+msgstr ""
+
+#: ../includes/settings.php:294
+msgid "Limit:"
+msgstr ""
+
+#: ../includes/settings.php:298
+msgid "Expiration:"
+msgstr ""
