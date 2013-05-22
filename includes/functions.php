@@ -6,36 +6,33 @@
  */
 function bp_invite_codes_register_post_type() {
 
-	$labels = array(
-		'name' => 'Invite Code',
-		'singular_name' => 'Invite Code',
-		'add_new' => 'Add New Invite Code',
-		'add_new_item' => 'Add New Invite Code',
-		'edit_item' => 'Edit Invite Code',
-		'new_item' => 'New Invite Code',
-		'all_items' => 'All Invite Codes',
-		'view_item' => 'View Invite Code',
-		'search_items' => 'Search Invite Codes',
-		'not_found' =>  'No Invite Codes found',
-		'not_found_in_trash' => 'No Invite Codes found in Trash',
-		'menu_name' => 'BP Invite Codes'
-	);
-
-	$args = array(
-		'labels' => $labels,
-		'public' => false,
+	register_post_type( 'bp-invite-codes', array(
+		'labels'             => array(
+			'name'               => __( 'Invite Code', 'bp-invite-codes' ),
+			'singular_name'      => __( 'Invite Code', 'bp-invite-codes' ),
+			'add_new'            => __( 'Add New Invite Code', 'bp-invite-codes' ),
+			'add_new_item'       => __( 'Add New Invite Code', 'bp-invite-codes' ),
+			'edit_item'          => __( 'Edit Invite Code', 'bp-invite-codes' ),
+			'new_item'           => __( 'New Invite Code', 'bp-invite-codes' ),
+			'all_items'          => __( 'All Invite Codes', 'bp-invite-codes' ),
+			'view_item'          => __( 'View Invite Code', 'bp-invite-codes' ),
+			'search_items'       => __( 'Search Invite Codes', 'bp-invite-codes' ),
+			'not_found'          => __( 'No Invite Codes found', 'bp-invite-codes' ),
+			'not_found_in_trash' => __( 'No Invite Codes found in Trash', 'bp-invite-codes' ),
+			'menu_name'          => __( 'BP Invite Codes', 'bp-invite-codes' ),
+		),
+		'public'             => false,
 		'publicly_queryable' => false,
-		'show_ui' => true,
-		'show_in_menu' => 'bp_invite_codes_settings_menu',
-		'query_var' => true,
-		'rewrite' => array( 'slug' => 'bp-invite-codes' ),
-		'has_archive' => false,
-		'hierarchical' => false,
-		'menu_position' => null,
-		'supports' => array( 'title', 'excerpt' )
-	);
+		'show_ui'            => true,
+		'show_in_menu'       => 'bp_invite_codes_settings_menu',
+		'query_var'          => true,
+		'rewrite'            => array( 'slug' => 'bp-invite-codes' ),
+		'has_archive'        => false,
+		'hierarchical'       => false,
+		'menu_position'      => null,
+		'supports'           => array( 'title', 'excerpt' )
+	) );
 
-	register_post_type( 'bp-invite-codes', $args );
 	$GLOBALS['bp_invite_codes_post_types'][] = $slug;
 }
 add_action( 'init', 'bp_invite_codes_register_post_type' );
