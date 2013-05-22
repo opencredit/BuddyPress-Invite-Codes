@@ -36,7 +36,7 @@ class BuddyPress_Invite_Codes {
 		// Define plugin constants
 		$this->basename       = plugin_basename( __FILE__ );
 		$this->directory_path = plugin_dir_path( __FILE__ );
-		$this->directory_url  = plugins_url( 'bp-invite-codes/' );
+		$this->directory_url  = plugin_dir_url( __FILE__ );
 
 		// Load translations
 		load_plugin_textdomain( 'bp-invite-codes', false, 'bp-invite-codes/languages' );
