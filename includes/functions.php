@@ -122,11 +122,12 @@ function bp_invite_codes_check_code( $post_id ) {
 		WHERE  meta_key = '_bp_invite_codes_code'
 		       AND meta_value != ''
 		       AND post_id != %d
-		       AND meta_value != %s
+		       AND meta_value = %s
 		",
 		$post_id,
 		$code
 	) );
+	
 	if ( $code_post_id ) {
 		$new_code = wp_generate_password( 7, 0 );
 		update_post_meta( $post_id, '_bp_invite_codes_code', $new_code );
@@ -284,9 +285,9 @@ function bp_invites_codes_get_code( $group_id = NULL, $entered_code = NULL, $ret
 					$post_group_id = get_post_meta( $code_post_id, '_bp_invite_codes_group_id', 1 );
 					if($post_group_id)
 						array_push( $group_ids, $post_group_id );
-					// Loop groups and ass user to each
+					// Loop groups and assigns user to each
 					if ( $group_ids && is_array($group_ids) ) {
-						$group_ids = explode(',', $group_ids);
+						$group_ids = implode(',', $group_ids);
 						if ( bp_has_groups( "per_page=1000&include=".$group_ids ) ) {
 							while ( bp_groups() ) : bp_the_group();
 								$group_id = bp_get_group_id();
