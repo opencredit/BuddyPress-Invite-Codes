@@ -1,13 +1,14 @@
 <?php
 /**
- * Plugin Name: BuddyPress Invite Codes
+ * Plugin Name: BuddyPress Invite Codes for BadgeOS
  * Plugin URI:
  * Description: Add members to groups based on invite codes.
- * Tags: buddypress
- * Author: Credly
+ * Tags: buddypress, invite codes, invite, badgeos, badges, groups, invitation
+ * Author: Credly, LLC
  * Version: 1.0.0
  * Author URI: https://credly.com/
- * License: GNU AGPL
+ * License: GNU AGPLv3
+ * License URI: http://www.gnu.org/licenses/agpl-3.0.html
  *
  * @package BuddyPress Invite Codes
  * @version 1.0.0
