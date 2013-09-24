@@ -108,7 +108,7 @@ class BuddyPress_Invite_Codes {
 	 */
 	public static function meets_requirements() {
 
-		if ( class_exists('BadgeOS') && function_exists('badgeos_get_user_earned_achievement_types') && class_exists('BuddyPress') )
+		if ( class_exists( 'BadgeOS' ) && function_exists( 'badgeos_get_user_earned_achievement_types' ) && class_exists( 'BP_Groups_Group' ) )
 			return true;
 		else
 			return false;
@@ -125,10 +125,12 @@ class BuddyPress_Invite_Codes {
 		if ( ! $this->meets_requirements() ) {
 			// Display our error
 			echo '<div id="message" class="error">';
-				if ( !class_exists('BadgeOS') || !function_exists('badgeos_get_user_earned_achievement_types') )
+				if ( ! class_exists('BadgeOS') || !function_exists('badgeos_get_user_earned_achievement_types') )
 					echo '<p>' . sprintf( __( 'BuddyPress Invite Codes requires BadgeOS and has been <a href="%s">deactivated</a>. Please install and activate BadgeOS and then reactivate this plugin.', 'badgeos-community' ), admin_url( 'plugins.php' ) ) . '</p>';
-				elseif ( !class_exists('BuddyPress') )
+				elseif ( ! class_exists( 'BuddyPress' ) )
 					echo '<p>' . sprintf( __( 'BuddyPress Invite Codes requires BuddyPress and has been <a href="%s">deactivated</a>. Please install and activate BuddyPress and then reactivate this plugin.', 'badgeos-community' ), admin_url( 'plugins.php' ) ) . '</p>';
+				elseif ( ! class_exists( 'BP_Groups_Group' ) )
+					echo '<p>' . sprintf( __( 'BuddyPress Invite Codes requires BuddyPress Groups be enabled and has been <a href="%s">deactivated</a>. Please activate <a href="%s">BuddyPress Groups</a> and then reactivate this plugin.', 'badgeos-community' ), admin_url( 'plugins.php' ), admin_url( 'options-general.php?page=bp-components' ) ) . '</p>';
 			echo '</div>';
 
 			// Deactivate our plugin
