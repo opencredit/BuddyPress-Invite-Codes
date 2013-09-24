@@ -8,44 +8,39 @@ Stable tag: 1.0.0
 License: GNU AGPLv3
 License URI: http://www.gnu.org/licenses/agpl-3.0.html
 
-Enhances sites running BuddyPress and BadgeOS by joining users to a specified group when they use a special Invitation Code to join your site.
+Enhances sites running BuddyPress and BadgeOS by joining users to one or more specified groups when they use a special Invite Code to join your site.
 
 == Description ==
 
-This Add-on to [BadgeOS plugin](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS") and BuddyPress allows users to earn any achievement by correctly entering a code.
+This add-on plugin to [BadgeOS](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS") and [BuddyPress](http://wordpress.org/extend/plugins/buddypress/ "BadgeOS") automatically joins a user to one or mre BuddyPress groups when they use a corresponding Invite Code upon joining your site.
 
 **Note:** You will need the free [BadgeOS plugin](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS")&trade; (version 1.2 or higher) and the [BuddyPress plugin](http://wordpress.org/extend/plugins/buddypress/ "BadgeOS") v1.7 or higher installed to use this plugin. 
 
-[BadgeOS](http://badgeos.org "BadgeOS")&trade; turns your WordPress site into an achievement and badging system. And with the BadgeOS Invite Code plugin enabled, group-based achievements can be awarded to users as soon as they join your site with a valid Invite Code.
+[BadgeOS](http://badgeos.org "BadgeOS")&trade; turns your WordPress site into an achievement and badging system. Use the BadgeOS Invite Code plugin in conjunction with the [BadgeOS Community Add-on](http://wordpress.org/plugins/badgeos-community-add-on/ "BadgeOS Community Add-on"), and badges based on Group membership can be awarded to users as soon as they join your site with a valid Invite Code.
 
 [Get the BadgeOS plugin](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS").
 
 *   **Features:**
 
-   *   Adds a new "Earned by" option to every Achievement for the entry of a unique "Activity Code"
-   *   When Activity Code option is selected, a submission area displays on the respective achievement page
-   *   Codes entered are validated in real time, with immediate response and achievement awarding to user
-   *   Includes a special "BadgeOS Activity Code Input Widget," so users can enter codes and earn achievements from anywhere on your site
-   *   Widget settings include option to rename the Activity Code default text and submit button text
-   *   Includes a special "shortcode" so you can embed an Activity Code input area within any page or post
-   *   Lockout Time parameter allow you to prevent the same user from entering the same Activity Code more than once in a given time period
+   *   Create and manage as many "Invite Codes" as desired
+   *   Select one or more BuddyPress Groups that users should automatically join when they register for your site
+   *   Set the maximum numberof times any specific code can be used
+   *   Designate an expiration date after which your codes can no longer be used
    *   Easily edit or delete any code at any time to disable further use
-
-*   **Example Uses:**
-
-   *   Provide Activity Codes to users to reward off-line achievements 
-   *   Use Activity Codes for easy achievement and badge awarding from mobile apps and kiosks running BadgeOS
-   *   Offer Activity Codes as "claim codes" for accepting badges for any offline or independently verified accomplishment
-   *   With Credly enabled for a given achievement, every user is just quick code entry away from earning a badge that instantly appears in their lifelong portfolio of achievements for safekeeping, display, and sharing on social networks like Facebook, LinkedIn, Twitter or the Mozilla Backpack
-   *   Reward attendance at events with Codes that can be entered to earn badges, points or other achievements.
+   *   Configuration option to require an invite code for site registration
+   *   Optionally select one or more default BuddyPress groups that members should automatically join when they register for your site
 
 = Resources / Helpful Links =
 
-BadgeOS Add-On is made available by [Credly, LLC](https://credly.com/ "Credly web site"). Here are some ways to stay connected and to see what else we are up to:
+BadgeOS is made available by [Credly, LLC](https://credly.com/ "Credly web site"). Here are some ways to stay connected and to see what else we are up to:
 
 * [BadgeOS.org](http://badgeos.org/ "BadgeOS web site") - Contact Us, Video Tutorials, Examples, News
 * [Credly.com](https://credly.com/ "Credly web site") - Manage lifelong credentials that matter
-* [BadgeOS on GitHub](https://github.com/opencredit/badgeos "BadgeOS on GitHub") - Report issues, contribute code
+* [Credly Knowledgebase](http://support.credly.com/ "Credly FAQ and Support") - Credly FAQ
+* [Facebook](https://www.facebook.com/Credly "Credly on Facebook") - Credly on Facebook
+* [Twitter](https://twitter.com/credly "Credly on Facebook") - Credly Tweets
+* [E-Mailing List](https://http://badgeos.org/join-list/ "BadgeOS Occasional Mailing List - No spam!") - Occasional updates via e-mail
+* [GitHub](https://github.com/opencredit/badgeos "BadgeOS on GitHub") - Report issues, contribute code
 
 = License Info =
 
@@ -57,12 +52,12 @@ There is NO WARRANTY for this software, express or implied, including the implie
 == Installation ==
 
 
-1. First get and activate the free [BadgeOS plugin](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS").
-2. Then upload the 'badgeos-add-on' plugin via the 'Plugins' menu in WordPress (or upload to the '/wp-content/plugins/' directory).
-3. Activate the plugin through the 'Plugins' menu in WordPress.
-4. When adding or editing any achievement in BadgeOS, select "Activity Code" from the "Earned by" pull-down menu, and enter a code you'd like users to enter to earn the achievement.
-5. Optionally set an "Activity Code Lockout" period to prevent the same user from earning the same achievement multiple times withing a given time period. Also consider using the BadgeOS field for "Maximum Earnings" to limit earning of the achievement to 1 time.
-6. Plugin automatically adds a code input area to the selected achievement. You can also enable the BadgeOS Activity Code Input Widget or use the Activity code shortcode [badgeos_activity_code_input] to add an input form anywhere on your site.
+1. First upload and activate the free [BadgeOS plugin](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS"), if you have not done so already.
+2. Also upload and activate the free [BuddyPress plugin](http://wordpress.org/extend/plugins/buddypress/ "BuddyPress"), if you have not done so already.
+3. Active the "User Groups" component of BuddyPress.
+4. Upload the 'BuddyPress-Invite-Codes' plugin via the 'Plugins' menu in WordPress (or upload to the '/wp-content/plugins/' directory).
+5. Activate the plugin through the 'Plugins' menu in WordPress.
+6. Visit the new "BP Invite Codes" menu to configure the plugin, and visit "All invite Codes" to add new codes or manage existing ones.
 
 == Frequently Asked Questions ==
 
