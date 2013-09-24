@@ -27,6 +27,7 @@ This add-on plugin to [BadgeOS](http://wordpress.org/extend/plugins/badgeos/ "Ba
    *   Set the maximum numberof times any specific code can be used
    *   Designate an expiration date after which your codes can no longer be used
    *   Easily edit or delete any code at any time to disable further use
+   *   Set Invite Codes from the front-end of the site when creating new BuddyPress Groups.
    *   Configuration option to require an invite code for site registration
    *   Optionally select one or more default BuddyPress groups that members should automatically join when they register for your site
 
@@ -80,11 +81,11 @@ Thanks for asking!  Please do share back code modifications or enhancements you 
 
 == Screenshots ==
 
-1. "Earned by" option for "Activity Code" lets any achievement be earned by entry of a valid code.
+1. Create Invite Codes with linits, expiration dates and group membership selections.
 
-2. "BadgeOS Activity Code Input Widget" allows the placement of code input areas anywhere on your site.
+2. Configure the plugin to require invite codes for all users joining the site, and set default groups for anyone registering.
 
-3. Codes are validated in real time, with clear alert messages to users.
+3. Set Invite Codes from the front-end of the site when creating new BuddyPress Groups.
 
 == Changelog ==
 
