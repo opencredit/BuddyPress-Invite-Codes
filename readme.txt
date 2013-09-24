@@ -1,5 +1,5 @@
 === BadgeOS Invite Codes Add-on ===
-Contributors: credly, webdevstudios
+Contributors: credly, webdevstudios, williamsba1, Messenlehner, rzen
 Donate link: http://badgeos.org/contribute/donate/
 Tags: badge, badges, openbadges, credly, OBI, mozilla, open badges, achievement, award, reward, engagement, submission, nomination, API, open credit, credit, badgeOS, buddypress, invitation, join, groups, register
 Requires at least: 3.5
@@ -14,7 +14,7 @@ Enhances sites running BuddyPress and BadgeOS by joining users to one or more sp
 
 This add-on plugin to [BadgeOS](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS") and [BuddyPress](http://wordpress.org/extend/plugins/buddypress/ "BadgeOS") automatically joins a user to one or mre BuddyPress groups when they use a corresponding Invite Code upon joining your site.
 
-**Note:** You will need the free [BadgeOS plugin](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS")&trade; (version 1.2 or higher) and the [BuddyPress plugin](http://wordpress.org/extend/plugins/buddypress/ "BadgeOS") v1.7 or higher installed to use this plugin. 
+**Note:** You will need the free [BadgeOS plugin](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS")&trade; (version 1.2 or higher) and the [BuddyPress plugin](http://wordpress.org/extend/plugins/buddypress/ "BadgeOS") v1.7 or higher installed to use this plugin.
 
 [BadgeOS](http://badgeos.org "BadgeOS")&trade; turns your WordPress site into an achievement and badging system. Use the BadgeOS Invite Code plugin in conjunction with the [BadgeOS Community Add-on](http://wordpress.org/plugins/badgeos-community-add-on/ "BadgeOS Community Add-on"), and badges based on Group membership can be awarded to users as soon as they join your site with a valid Invite Code.
 
