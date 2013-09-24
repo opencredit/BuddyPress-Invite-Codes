@@ -81,7 +81,7 @@ Thanks for asking!  Please do share back code modifications or enhancements you 
 
 == Screenshots ==
 
-1. Create Invite Codes with linits, expiration dates and group membership selections.
+1. Create Invite Codes with limits, expiration dates and group membership selections.
 
 2. Configure the plugin to require invite codes for all users joining the site, and set default groups for anyone registering.
 
