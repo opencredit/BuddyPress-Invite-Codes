@@ -12,7 +12,7 @@ Enhances sites running BuddyPress and BadgeOS by joining users to one or more sp
 
 == Description ==
 
-This add-on plugin to [BadgeOS](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS") and [BuddyPress](http://wordpress.org/extend/plugins/buddypress/ "BadgeOS") automatically joins a user to one or mre BuddyPress groups when they use a corresponding Invite Code upon joining your site.
+This add-on plugin to [BadgeOS](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS") and [BuddyPress](http://wordpress.org/extend/plugins/buddypress/ "BadgeOS") automatically joins a user to one or more BuddyPress groups when they use a corresponding Invite Code upon joining your site.
 
 **Note:** You will need the free [BadgeOS plugin](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS")&trade; (version 1.2 or higher) and the [BuddyPress plugin](http://wordpress.org/extend/plugins/buddypress/ "BadgeOS") v1.7 or higher installed to use this plugin.
 
