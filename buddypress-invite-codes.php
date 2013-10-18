@@ -86,10 +86,14 @@ class BuddyPress_Invite_Codes {
 		if ( isset( $bp->current_component ) && 'groups' == $bp->current_component ) {
 			wp_enqueue_script( 'bp-invite-codes', $this->directory_url . 'js/bp-invite-codes.js', array( 'jquery' ) );
 
-			wp_localize_script( 'bp-invite-codes', 'bp_invite_codes', array(
-																		   'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
-																		   'prompt' => __( 'You must enter an invite code to join this group.', 'bp-invite-codes' )
-																	  ) );
+			wp_localize_script(
+				'bp-invite-codes',
+				'bp_invite_codes',
+				array(
+					'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
+					'prompt' => __( 'You must enter an invite code to join this group.', 'bp-invite-codes' )
+				)
+			);
 		}
 
 	}
