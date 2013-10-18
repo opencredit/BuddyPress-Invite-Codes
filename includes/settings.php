@@ -223,6 +223,10 @@ function bp_invite_codes_groups_checkboxes( $post ) {
 	}
 
 	$input_type = apply_filters( 'bp_invite_codes_group_input_type', 'checkbox', $post->ID );
+
+	if ( !empty( $post_group_ids ) ) {
+		$input_type = 'checkbox';
+	}
 ?>
 	<div id="posttype-clients" class="categorydiv">
 		<div id="clients-all" class="tabs-panel">
