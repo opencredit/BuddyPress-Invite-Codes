@@ -30,10 +30,11 @@ jQuery( function( $ ) {
 
 				if ( 'join' == response.data ) {
 
-					var nonce = $( '#link_href_' + gid ).val()
+					var nonce = $( '#link_href_' + gid ).val();
+
 					nonce = nonce.split( '?_wpnonce=' );
-					nonce = nonce[1].split( '&' );
-					nonce = nonce[0];
+					nonce = nonce[ 1 ].split( '&' );
+					nonce = nonce[ 0 ];
 
 					$.post(
 						bp_invite_codes.ajaxurl,
