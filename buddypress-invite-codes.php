@@ -35,9 +35,9 @@ class BuddyPress_Invite_Codes {
 	function __construct() {
 
 		// Define plugin constants
-		$this->basename       = plugin_basename( __FILE__ );
+		$this->basename = plugin_basename( __FILE__ );
 		$this->directory_path = plugin_dir_path( __FILE__ );
-		$this->directory_url  = plugin_dir_url( __FILE__ );
+		$this->directory_url = plugin_dir_url( __FILE__ );
 
 		// Load translations
 		load_plugin_textdomain( 'bp-invite-codes', false, 'bp-invite-codes/languages' );
@@ -52,6 +52,7 @@ class BuddyPress_Invite_Codes {
 
 		// Load custom js and css
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 999 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 999 );
 
 	}
 
@@ -63,10 +64,11 @@ class BuddyPress_Invite_Codes {
 	public function bp_include() {
 
 		if ( $this->meets_requirements() ) {
-			if ( is_admin() )
-				require_once( $this->directory_path . '/includes/settings.php' );
+			if ( is_admin() ) {
+				require_once( $this->directory_path . 'includes/settings.php' );
+			}
 
-			require_once( $this->directory_path . '/includes/functions.php' );
+			require_once( $this->directory_path . 'includes/functions.php' );
 
 		}
 	}
@@ -80,17 +82,30 @@ class BuddyPress_Invite_Codes {
 
 		// If we're on a BP group page
 		global $bp;
+
 		if ( isset( $bp->current_component ) && 'groups' == $bp->current_component ) {
 			wp_enqueue_script( 'bp-invite-codes', $this->directory_url . 'js/bp-invite-codes.js', array( 'jquery' ) );
+
 			wp_localize_script( 'bp-invite-codes', 'bp_invite_codes', array(
-				'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
-				'prompt'  => __( 'You must enter an invite code to join this group.', 'bp-invite-codes')
-			) );
+																		   'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
+																		   'prompt' => __( 'You must enter an invite code to join this group.', 'bp-invite-codes' )
+																	  ) );
 		}
 
+	}
+
+	/**
+	 * Enqueue custom scripts and styles
+	 *
+	 * @since 1.0.0
+	 */
+	public function admin_enqueue_scripts() {
+
 		// If need to load css for admin pages
-		//if ( is_admin() )
-			//wp_enqueue_style( 'bp-invite-codes-admin', $this->directory_url . 'css/admin.css' );
+		if ( isset( $_GET[ 'page' ] ) && 'bp_invite_codes_settings_menu' == $_GET[ 'page' ] ) {
+			wp_enqueue_style( 'bp-invite-codes-admin', $this->directory_url . 'css/admin.css', array(), '1.0' );
+		}
+
 	}
 
 	/**
@@ -98,7 +113,9 @@ class BuddyPress_Invite_Codes {
 	 *
 	 * @since 1.0.0
 	 */
-	public function activate() {}
+	public function activate() {
+
+	}
 
 	/**
 	 * Check if BadgeOS is available
@@ -108,10 +125,12 @@ class BuddyPress_Invite_Codes {
 	 */
 	public static function meets_requirements() {
 
-		if ( class_exists( 'BadgeOS' ) && function_exists( 'badgeos_get_user_earned_achievement_types' ) && class_exists( 'BP_Groups_Group' ) )
+		if ( class_exists( 'BadgeOS' ) && function_exists( 'badgeos_get_user_earned_achievement_types' ) && class_exists( 'BP_Groups_Group' ) ) {
 			return true;
-		else
+		}
+		else {
 			return false;
+		}
 
 	}
 
@@ -122,20 +141,28 @@ class BuddyPress_Invite_Codes {
 	 */
 	public function maybe_disable_plugin() {
 
-		if ( ! $this->meets_requirements() ) {
+		if ( !$this->meets_requirements() ) {
 			// Display our error
 			echo '<div id="message" class="error">';
-				if ( ! class_exists('BadgeOS') || !function_exists('badgeos_get_user_earned_achievement_types') )
-					echo '<p>' . sprintf( __( 'BuddyPress Invite Codes requires BadgeOS and has been <a href="%s">deactivated</a>. Please install and activate BadgeOS and then reactivate this plugin.', 'badgeos-community' ), admin_url( 'plugins.php' ) ) . '</p>';
-				elseif ( ! class_exists( 'BuddyPress' ) )
-					echo '<p>' . sprintf( __( 'BuddyPress Invite Codes requires BuddyPress and has been <a href="%s">deactivated</a>. Please install and activate BuddyPress and then reactivate this plugin.', 'badgeos-community' ), admin_url( 'plugins.php' ) ) . '</p>';
-				elseif ( ! class_exists( 'BP_Groups_Group' ) )
-					echo '<p>' . sprintf( __( 'BuddyPress Invite Codes requires BuddyPress Groups be enabled and has been <a href="%s">deactivated</a>. Please activate <a href="%s">BuddyPress Groups</a> and then reactivate this plugin.', 'badgeos-community' ), admin_url( 'plugins.php' ), admin_url( 'options-general.php?page=bp-components' ) ) . '</p>';
+
+			if ( !class_exists( 'BadgeOS' ) || !function_exists( 'badgeos_get_user_earned_achievement_types' ) ) {
+				echo '<p>' . sprintf( __( 'BuddyPress Invite Codes requires BadgeOS and has been <a href="%s">deactivated</a>. Please install and activate BadgeOS and then reactivate this plugin.', 'bp-invite-codes' ), admin_url( 'plugins.php' ) ) . '</p>';
+			}
+			elseif ( !class_exists( 'BuddyPress' ) ) {
+				echo '<p>' . sprintf( __( 'BuddyPress Invite Codes requires BuddyPress and has been <a href="%s">deactivated</a>. Please install and activate BuddyPress and then reactivate this plugin.', 'bp-invite-codes' ), admin_url( 'plugins.php' ) ) . '</p>';
+			}
+			elseif ( !class_exists( 'BP_Groups_Group' ) || !bp_is_active( 'groups' ) ) {
+				echo '<p>' . sprintf( __( 'BuddyPress Invite Codes requires BuddyPress Groups be enabled and has been <a href="%s">deactivated</a>. Please activate <a href="%s">BuddyPress Groups</a> and then reactivate this plugin.', 'bp-invite-codes' ), admin_url( 'plugins.php' ), admin_url( 'options-general.php?page=bp-components' ) ) . '</p>';
+			}
+
 			echo '</div>';
 
 			// Deactivate our plugin
 			deactivate_plugins( $this->basename );
 		}
+
 	}
 }
-$buddypress_invite_codes = new BuddyPress_Invite_Codes();
+
+global $buddypress_invite_codes;
+$buddypress_invite_codes = new BuddyPress_Invite_Codes;
