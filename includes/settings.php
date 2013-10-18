@@ -16,7 +16,8 @@
  */
 function bp_invite_codes_create_settings_menu() {
 
-	add_menu_page( 'BP Invite Codes', 'BP Invite Codes', 'manage_options', 'bp_invite_codes_settings_menu', 'bp_invite_codes_settings_page', plugins_url( 'learningtimes_icon.png', __FILE__ ) );
+	add_menu_page( 'BP Invite Codes', 'BP Invite Codes', 'manage_options', 'bp_invite_codes_settings', 'bp_invite_codes_settings_page', plugins_url( 'learningtimes_icon.png', __FILE__ ) );
+	add_submenu_page( 'bp_invite_codes_settings', 'BP Invite Code Settings', 'Settings', 'manage_options', 'bp_invite_codes_settings', 'bp_invite_codes_settings_page' );
 
 }
 add_action( 'admin_menu', 'bp_invite_codes_create_settings_menu', 8 );
@@ -31,7 +32,7 @@ function bp_invite_codes_settings_page() {
 ?>
 	<div id="wrap" class="bp-invite-codes-admin">
 		<div id="icon-options-general" class="icon32"></div>
-		<h2><?php _e( 'BuddyPress Group Invite Codes', 'bp-invite-codes' ); ?></h2>
+		<h2><?php _e( 'BuddyPress Invite Code Settings', 'bp-invite-codes' ); ?></h2>
 
 		<form method='post'>
 			<?php

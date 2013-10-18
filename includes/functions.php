@@ -33,7 +33,7 @@ function bp_invite_codes_register_post_type() {
 		'public' => false,
 		'publicly_queryable' => false,
 		'show_ui' => true,
-		'show_in_menu' => 'bp_invite_codes_settings_menu',
+		'show_in_menu' => 'bp_invite_codes_settings',
 		'query_var' => true,
 		'rewrite' => array( 'slug' => 'bp-invite-codes' ),
 		'has_archive' => false,
