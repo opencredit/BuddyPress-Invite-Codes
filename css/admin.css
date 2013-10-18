@@ -1,50 +1,45 @@
-.checkbox-overflow {
-	height: 75px;
-	width: 350px;
-	overflow: auto;
-	border: 1px solid #ccc;
+.bp-invite-codes-admin .checkbox-overflow {
+	width: 450px;
+	max-height: 900px;
 	padding: 5px;
+
+	overflow: auto;
+
+	border: 1px solid #CCC;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	border-radius: 3px;
 }
 
-.content-editor {
-	max-width: 800px;
-	background: #eee;
-	padding: 0 10px;
-	overflow: hidden;
-	margin: 20px 0;
+.bp-invite-codes-admin .checkbox-overflow ul,
+.bp-invite-codes-admin .checkbox-overflow li {
+	margin: 0;
+	list-style: none;
 }
 
-.content-editor:last-of-type {
-	margin: 20px 0 0;
+.bp-invite-codes-admin .checkbox-overflow li {
+	min-height: 22px;
+	padding: 10px;
 }
 
-.content-editor .update-area {
-	text-align: right;
+.bp-invite-codes-admin .checkbox-overflow li:nth-child(even) {
+	background-color: #E7E7E7;
 }
 
-.content-editor .content-editor-head {
-	border-bottom: 1px solid #ccc;
-	margin-bottom: 5px;
-	overflow: hidden;
-}
-.content-editor .content-editor-head div, .content-editor .content-editor-head h3 {
-	display: block;
-	margin: 1em 0 .5em;
+.bp-invite-codes-admin .checkbox-overflow li input {
+	vertical-align: middle;
 }
 
-.mceIframeContainer {
-	background: #fff;
-}
-
-#TB_Image {
-	max-width: 95%;
-	height: auto;
-}
-
-.wrap.ms-content .button-primary {
+#bp_invite_codes_groups_meta_box li label span.actions,
+.bp-invite-codes-admin .checkbox-overflow li label span.actions {
 	display: none;
+
+	margin-left: 4px;
+	font-size: 0.8em;
+}
+
+#bp_invite_codes_groups_meta_box li:hover label span.actions,
+.bp-invite-codes-admin .checkbox-overflow li:hover label span.actions {
+	display: inline;
 }
