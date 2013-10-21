@@ -220,6 +220,7 @@ function bp_invite_codes_groups_checkboxes( $post ) {
 
 	if ( !empty( $post_group_ids ) ) {
 		$selected_group_ids = array_merge( $selected_group_ids, $post_group_ids );
+		$selected_group_ids = array_unique( $selected_group_ids );
 	}
 
 	$input_type = apply_filters( 'bp_invite_codes_group_input_type', 'checkbox', $post->ID );
