@@ -5,13 +5,13 @@
  * Description: Add members to groups based on invite codes.
  * Tags: buddypress, invite codes, invite, badgeos, badges, groups, invitation
  * Author: Credly, LLC
- * Version: 1.0.1 Beta
+ * Version: 1.1.0
  * Author URI: https://credly.com/
  * License: GNU AGPLv3
  * License URI: http://www.gnu.org/licenses/agpl-3.0.html
  *
  * @package BuddyPress Invite Codes
- * @version 1.0.1
+ * @version 1.1.0
  */
 
 /*

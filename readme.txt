@@ -1,10 +1,10 @@
 === BadgeOS Invite Codes Add-on ===
-Contributors: credly, webdevstudios, williamsba1, Messenlehner, rzen
+Contributors: credly, webdevstudios, williamsba1, Messenlehner, rzen, sc0ttkclark
 Donate link: http://badgeos.org/contribute/donate/
 Tags: badge, badges, openbadges, credly, OBI, mozilla, open badges, achievement, award, reward, engagement, submission, nomination, API, open credit, credit, badgeOS, buddypress, invitation, join, groups, register
 Requires at least: 3.5
-Tested up to: 3.5.2
-Stable tag: 1.0.0
+Tested up to: 3.7.1
+Stable tag: 1.1.0
 License: GNU AGPLv3
 License URI: http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -52,7 +52,6 @@ There is NO WARRANTY for this software, express or implied, including the implie
 
 == Installation ==
 
-
 1. First upload and activate the free [BadgeOS plugin](http://wordpress.org/extend/plugins/badgeos/ "BadgeOS"), if you have not done so already.
 2. Also upload and activate the free [BuddyPress plugin](http://wordpress.org/extend/plugins/buddypress/ "BuddyPress"), if you have not done so already.
 3. Active the "User Groups" component of BuddyPress.
@@ -61,7 +60,6 @@ There is NO WARRANTY for this software, express or implied, including the implie
 6. Visit the new "BP Invite Codes" menu to configure the plugin, and visit "All invite Codes" to add new codes or manage existing ones.
 
 == Frequently Asked Questions ==
-
 
 = Where can I learn more about BadgeOS? =
 
@@ -89,11 +87,16 @@ Thanks for asking!  Please do share back code modifications or enhancements you 
 
 == Changelog ==
 
+= 1.1.0 =
+* Multisite support for activations to auto-join the invite code associated group(s)
+
 = 1.0.0 =
 * Intial release
 
-
 == Upgrade Notice ==
+
+= 1.1.0 =
+* Multisite support for activations to auto-join the invite code associated group(s)
 
 = 1.0.0 =
 * Intial release
