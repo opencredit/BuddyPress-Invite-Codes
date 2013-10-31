@@ -144,12 +144,11 @@ function bp_invite_codes_bp_core_signup_user( $user_id, $user_login, $user_passw
 		// New User
 		if ( !empty( $user_id ) ) {
 			bp_invites_code_join( $_POST[ 'bp_invite_code' ], 0, $user_id );
-
-			setcookie( 'bp_invite_code', '', time() + 60 * 60 * 72, COOKIEPATH );
 		}
 		// Multisite activation
 		else {
-			setcookie( 'bp_invite_code', $_POST[ 'bp_invite_code' ], time() + 60 * 60 * 72, COOKIEPATH );
+			delete_option( 'bp_invite_code_' . md5( $user_email ) );
+			add_option( 'bp_invite_code_' . md5( $user_email ), $_POST[ 'bp_invite_code' ], '', 'no' );
 		}
 	}
 
@@ -163,10 +162,21 @@ add_action( 'bp_core_signup_user', 'bp_invite_codes_bp_core_signup_user', 1, 5 )
  */
 function bp_invite_codes_bp_core_activate_user( $user_id ) {
 
-	if ( isset( $_COOKIE[ 'bp_invite_code' ] ) ) {
-		bp_invites_code_join( $_COOKIE[ 'bp_invite_code' ], 0, $user_id );
+	$user = get_userdata( $user_id );
 
-		setcookie( 'bp_invite_code', '', time() + 60 * 60 * 72, COOKIEPATH );
+	$invite_code = get_option( 'bp_invite_code_' . md5( $user->user_email ) );
+
+	if ( !empty( $invite_code ) ) {
+		$return = bp_invites_code_join( $invite_code, 0, $user_id );
+
+		if ( 'join' != $return ) {
+			bp_invites_code_join( null, 0, $user_id );
+		}
+
+		delete_option( 'bp_invite_code_' . md5( $user->user_email ) );
+	}
+	else {
+		bp_invites_code_join( null, 0, $user_id );
 	}
 
 }
@@ -179,11 +189,7 @@ add_action( 'wpmu_activate_user', 'bp_invite_codes_bp_core_activate_user', 10, 1
  */
 function bp_invite_codes_bp_core_activate_blog( $blog_id, $user_id ) {
 
-	if ( isset( $_COOKIE[ 'bp_invite_code' ] ) ) {
-		bp_invites_code_join( $_COOKIE[ 'bp_invite_code' ], 0, $user_id );
-
-		setcookie( 'bp_invite_code', '', time() + 60 * 60 * 72, COOKIEPATH );
-	}
+	bp_invite_codes_bp_core_activate_user( $user_id );
 
 }
 add_action( 'wpmu_activate_blog', 'bp_invite_codes_bp_core_activate_blog', 10, 2 );
@@ -406,91 +412,103 @@ add_action( 'bp_after_group_settings_creation_step', 'bp_invite_codes_bp_after_g
  *
  * @since  1.1.0
  */
-function bp_invites_code_join( $code, $group_id = 0, $user_id = 0 ) {
+function bp_invites_code_join( $code = null, $group_id = 0, $user_id = 0 ) {
 
-	$return = bp_invite_codes_get_code( $group_id, $code, 'invite_id' );
+	$group_ids = array();
 
-	if ( is_int( $return ) ) {
-		$code_post_id = $return;
+	if ( null === $code && $user_id && !$group_id ) {
 		$return = 'join';
 
-		$invites_used = (int) get_post_meta( $code_post_id, '_bp_invite_codes_used', true );
-		$invites_used++;
+		// add default groups to join if any
+		$bp_invite_codes_default_bp_groups = get_option( 'bp_invite_codes_default_bp_groups' );
 
-		if ( $user_id ) {
-			// get group ids attached to current code and add user to them (this will only happen on registration as group_id is null).
-			if ( $group_id ) {
-				$group_ids = implode( ',', $group_id );
-
-				if ( bp_has_groups( 'per_page=1000&include=' . $group_ids ) ) {
-					while ( bp_groups() ) {
-						bp_the_group();
-
-						groups_join_group( bp_get_group_id(), $user_id );
-					}
-				}
-			}
-			else {
-				$group_ids = get_post_meta( $code_post_id, '_bp_invite_codes_groups', true );
-
-				if ( empty( $group_ids ) ) {
-					$group_ids = array();
-				}
-				elseif ( !is_array( $group_ids ) ) {
-					$group_ids = (array) $group_ids;
-				}
-
-				$group_ids = array_map( 'absint', $group_ids );
-
-				// add default groups to join if any
-				$bp_invite_codes_default_bp_groups = get_option( 'bp_invite_codes_default_bp_groups' );
-
-				if ( empty( $bp_invite_codes_default_bp_groups ) ) {
-					$bp_invite_codes_default_bp_groups = array();
-				}
-				elseif ( !is_array( $bp_invite_codes_default_bp_groups ) ) {
-					$bp_invite_codes_default_bp_groups = (array) $bp_invite_codes_default_bp_groups;
-				}
-
-				$bp_invite_codes_default_bp_groups = array_map( 'absint', $bp_invite_codes_default_bp_groups );
-
-				$group_ids = array_merge( $group_ids, $bp_invite_codes_default_bp_groups );
-				$group_ids = array_unique( $group_ids );
-
-				// get group_id if code only set by group admin
-				$post_group_ids = get_post_meta( $code_post_id, '_bp_invite_codes_group_id', true );
-
-				if ( empty( $post_group_ids ) ) {
-					$post_group_ids = array();
-				}
-				elseif ( !is_array( $post_group_ids ) ) {
-					$post_group_ids = (array) $post_group_ids;
-				}
-
-				$post_group_ids = array_map( 'absint', $post_group_ids );
-
-				if ( !empty( $post_group_ids ) ) {
-					$group_ids = array_merge( $group_ids, $post_group_ids );
-					$group_ids = array_unique( $group_ids );
-				}
-
-				// Loop groups and assigns user to each
-				if ( !empty( $group_ids ) ) {
-					$group_ids = implode( ',', $group_ids );
-
-					if ( bp_has_groups( 'per_page=1000&include=' . $group_ids ) ) {
-						while ( bp_groups() ) {
-							bp_the_group();
-
-							groups_join_group( bp_get_group_id(), $user_id );
-						}
-					}
-				}
-			}
+		if ( empty( $bp_invite_codes_default_bp_groups ) ) {
+			$bp_invite_codes_default_bp_groups = array();
+		}
+		elseif ( !is_array( $bp_invite_codes_default_bp_groups ) ) {
+			$bp_invite_codes_default_bp_groups = (array) $bp_invite_codes_default_bp_groups;
 		}
 
-		// update number of times this code has been used
-		update_post_meta( $code_post_id, '_bp_invite_codes_used', $invites_used );
+		$group_ids = array_map( 'absint', $bp_invite_codes_default_bp_groups );
+		$group_ids = array_filter( array_unique( $group_ids ) );
+	}
+	else {
+		$return = bp_invite_codes_get_code( $group_id, $code, 'invite_id' );
+
+		if ( is_int( $return ) ) {
+			$code_post_id = $return;
+			$return = 'join';
+
+			$invites_used = (int) get_post_meta( $code_post_id, '_bp_invite_codes_used', true );
+			$invites_used++;
+
+			if ( $user_id ) {
+				// get group ids attached to current code and add user to them (this will only happen on registration as group_id is null).
+				if ( $group_id ) {
+					$group_ids = (array) $group_id;
+				}
+				else {
+					$group_ids = get_post_meta( $code_post_id, '_bp_invite_codes_groups', true );
+
+					if ( empty( $group_ids ) ) {
+						$group_ids = array();
+					}
+					elseif ( !is_array( $group_ids ) ) {
+						$group_ids = (array) $group_ids;
+					}
+
+					$group_ids = array_map( 'absint', $group_ids );
+
+					// add default groups to join if any
+					$bp_invite_codes_default_bp_groups = get_option( 'bp_invite_codes_default_bp_groups' );
+
+					if ( empty( $bp_invite_codes_default_bp_groups ) ) {
+						$bp_invite_codes_default_bp_groups = array();
+					}
+					elseif ( !is_array( $bp_invite_codes_default_bp_groups ) ) {
+						$bp_invite_codes_default_bp_groups = (array) $bp_invite_codes_default_bp_groups;
+					}
+
+					$bp_invite_codes_default_bp_groups = array_map( 'absint', $bp_invite_codes_default_bp_groups );
+
+					$group_ids = array_merge( $group_ids, $bp_invite_codes_default_bp_groups );
+					$group_ids = array_filter( array_unique( $group_ids ) );
+
+					// get group_id if code only set by group admin
+					$post_group_ids = get_post_meta( $code_post_id, '_bp_invite_codes_group_id', true );
+
+					if ( empty( $post_group_ids ) ) {
+						$post_group_ids = array();
+					}
+					elseif ( !is_array( $post_group_ids ) ) {
+						$post_group_ids = (array) $post_group_ids;
+					}
+
+					$post_group_ids = array_map( 'absint', $post_group_ids );
+
+					if ( !empty( $post_group_ids ) ) {
+						$group_ids = array_merge( $group_ids, $post_group_ids );
+						$group_ids = array_filter( array_unique( $group_ids ) );
+					}
+				}
+			}
+
+			// update number of times this code has been used
+			update_post_meta( $code_post_id, '_bp_invite_codes_used', $invites_used );
+		}
+	}
+
+	// Loop groups and assigns user to each
+	if ( $user_id && !empty( $group_ids ) ) {
+		$group_ids = implode( ',', (array) $group_ids );
+
+		if ( bp_has_groups( 'per_page=1000&include=' . $group_ids ) ) {
+			while ( bp_groups() ) {
+				bp_the_group();
+
+				groups_join_group( bp_get_group_id(), $user_id );
+			}
+		}
 	}
 
 	return $return;
