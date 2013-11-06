@@ -502,7 +502,7 @@ function bp_invites_code_join( $code = null, $group_id = 0, $user_id = 0 ) {
 	if ( $user_id && !empty( $group_ids ) ) {
 		$group_ids = implode( ',', (array) $group_ids );
 
-		if ( bp_has_groups( 'per_page=1000&include=' . $group_ids ) ) {
+		if ( bp_has_groups( 'per_page=1000&show_hidden=1&include=' . $group_ids ) ) {
 			while ( bp_groups() ) {
 				bp_the_group();
 

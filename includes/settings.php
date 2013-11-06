@@ -88,7 +88,7 @@ function bp_invite_codes_settings_page() {
 
 			<div class="checkbox-overflow">
 				<?php
-					if ( bp_has_groups( 'per_page=1000' ) ) {
+					if ( bp_has_groups( 'per_page=1000&show_hidden=1' ) ) {
 						while ( bp_groups() ) {
 							bp_the_group();
 
@@ -235,7 +235,7 @@ function bp_invite_codes_groups_checkboxes( $post ) {
 
 			<ul id="clientschecklist" class="list:category categorychecklist form-no-clear">
 				<?php
-					if ( bp_has_groups( 'per_page=1000' ) ) {
+					if ( bp_has_groups( 'per_page=1000&show_hidden=1' ) ) {
 						while ( bp_groups() ) {
 							bp_the_group();
 
