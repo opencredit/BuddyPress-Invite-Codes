@@ -24,12 +24,13 @@ This add-on plugin to [BadgeOS](http://wordpress.org/extend/plugins/badgeos/ "Ba
 
    *   Create and manage as many "Invite Codes" as desired
    *   Select one or more BuddyPress Groups that users should automatically join when they register for your site
-   *   Set the maximum numberof times any specific code can be used
+   *   Set the maximum number of times any specific code can be used
    *   Designate an expiration date after which your codes can no longer be used
    *   Easily edit or delete any code at any time to disable further use
    *   Set Invite Codes from the front-end of the site when creating new BuddyPress Groups.
    *   Configuration option to require an invite code for site registration
    *   Optionally select one or more default BuddyPress groups that members should automatically join when they register for your site
+   *   Multisite support
 
 = Resources / Helpful Links =
 
@@ -89,6 +90,8 @@ Thanks for asking!  Please do share back code modifications or enhancements you 
 
 = 1.1.0 =
 * Multisite support for activations to auto-join the invite code associated group(s)
+* Added more useful information to Invites list in admin area
+* Added field in Invite edit to override the number of uses
 * Bug fixes and improvements across the plugin
 
 = 1.0.0 =
@@ -98,6 +101,8 @@ Thanks for asking!  Please do share back code modifications or enhancements you 
 
 = 1.1.0 =
 * Multisite support for activations to auto-join the invite code associated group(s)
+* Added more useful information to Invites list in admin area
+* Added field in Invite edit to override the number of uses
 * Bug fixes and improvements across the plugin
 
 = 1.0.0 =
