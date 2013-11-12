@@ -89,6 +89,7 @@ Thanks for asking!  Please do share back code modifications or enhancements you 
 
 = 1.1.0 =
 * Multisite support for activations to auto-join the invite code associated group(s)
+* Bug fixes and improvements across the plugin
 
 = 1.0.0 =
 * Intial release
@@ -97,6 +98,7 @@ Thanks for asking!  Please do share back code modifications or enhancements you 
 
 = 1.1.0 =
 * Multisite support for activations to auto-join the invite code associated group(s)
+* Bug fixes and improvements across the plugin
 
 = 1.0.0 =
 * Intial release

@@ -32,6 +32,12 @@
 
 class BuddyPress_Invite_Codes {
 
+	public $version = '1.1.0';
+
+	public $basename;
+	public $directory_path;
+	public $directory_url;
+
 	function __construct() {
 
 		// Define plugin constants
