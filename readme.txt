@@ -1,5 +1,5 @@
 === BadgeOS Invite Codes Add-on ===
-Contributors: learningtimes, webdevstudios, williamsba1, Messenlehner, rzen, sc0ttkclark
+Contributors: learningtimes, badgeos, webdevstudios, williamsba1, Messenlehner, rzen, sc0ttkclark
 Donate link: http://badgeos.org/contribute/donate/
 Tags: badge, badges, openbadges, credly, OBI, mozilla, open badges, achievement, award, reward, engagement, submission, nomination, API, open credit, credit, badgeOS, buddypress, invitation, join, groups, register
 Requires at least: 3.5
