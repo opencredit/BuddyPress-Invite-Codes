@@ -254,7 +254,15 @@ function bp_invite_codes_group_admin_action( $group_id ) {
 	if ( isset( $_POST[ 'bp_invite_codes_code_hidden' ] ) ) {
 		$bp_invite_codes_code_hidden = $_POST[ 'bp_invite_codes_code_hidden' ];
 	}
+    //check the invite code field is empty or not
+    if(empty($_POST[ 'bp_invite_codes_code' ])){
 
+        $message = sprintf(
+            __( 'Please enter the invite code', 'bp-invite-codes' )
+        );
+        bp_core_add_message( $message, 'error' );
+        bp_core_redirect( trailingslashit( bp_get_groups_directory_permalink() . 'create/step/' . bp_get_groups_current_create_step() ) );
+    }
 	// If our codes don't match...
 	if ( $bp_invite_codes_code != $bp_invite_codes_code_hidden ) {
 		global $bp, $user_ID;
